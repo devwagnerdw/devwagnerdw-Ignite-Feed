@@ -12,9 +12,10 @@ import styles from './Post.module.css';
 
 export function Post({author ,publishedAt, content}) {
 const [comments,setComments] = useState([
-  1,
-  2,
+  'Post muito legal!'
 ])
+
+const [newCommentText, setNewCommentText] = useState('');
 
 
 
@@ -29,9 +30,14 @@ function handleCrateNewComment(){
   event.preventDefault()
 
 
- setComments([...comments, comments.length+1]);
+ setComments([...comments, newCommentText]);
+ setNewCommentText('');
 
-  console.log(comments);
+}
+
+
+function handleNewCommentChange(){
+  setNewCommentText(event.target.value)
 
 }
 
@@ -55,9 +61,9 @@ function handleCrateNewComment(){
       <div className={styles.content}>
       {content.map(line => {
           if (line.type === 'paragraph') {
-            return <p>{line.content}</p>;
+            return <p key={line.content}>{line.content}</p>;
           } else if (line.type === 'link') {
-            return <p><a href="#">{line.content}</a></p>
+            return <p key={line.content}><a href="#">{line.content}</a></p>
           }
         })}
       </div>
@@ -66,7 +72,10 @@ function handleCrateNewComment(){
         <strong>Deixe seu feedback</strong>
 
         <textarea
+        name='comment'
           placeholder="Deixe um comentário"
+          value={newCommentText}
+          onChange={handleNewCommentChange}
         />
 
         <footer>
@@ -76,7 +85,7 @@ function handleCrateNewComment(){
 
       <div className={styles.commentList}> 
       {comments.map(comment => {
-        return <Comment />
+        return <Comment key={comment} content={comment}/>
       })}
       </div>
     </article>
