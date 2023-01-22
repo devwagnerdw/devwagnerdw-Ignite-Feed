@@ -17,7 +17,7 @@ const [comments,setComments] = useState([
 
 const [newCommentText, setNewCommentText] = useState('');
 
-
+console.log(newCommentText)
 
  const publisheDateFormatted=format(publishedAt, "d 'de' LLL 'ás' HH:mm'h' ", {locale:ptBr})
 
@@ -37,9 +37,16 @@ function handleCrateNewComment(){
 
 
 function handleNewCommentChange(){
+  event.target.setCustomValidity('')
   setNewCommentText(event.target.value)
 
 }
+
+
+function handleNewCommentInvalid(){
+  event.target.setCustomValidity('Esse campo é obrigatório!')
+}
+
 
 function deleteComment(commentToDelete){
   //imutabilidade > as variaveis não sofrem mutação, nos criamos um novo valor (um novo espaço na memoria)
@@ -50,6 +57,9 @@ function deleteComment(commentToDelete){
   setComments(commentsWithoutDeletedOne);
 
 }
+
+
+const isNewCommentEmpty= newCommentText.length==0
 
   return (
     <article className={styles.post}>
@@ -86,10 +96,14 @@ function deleteComment(commentToDelete){
           placeholder="Deixe um comentário"
           value={newCommentText}
           onChange={handleNewCommentChange}
+          onInvalid={handleNewCommentInvalid}
+          required
         />
 
         <footer>
-          <button type="submit">Publicar</button>
+          <button type="submit" disabled={isNewCommentEmpty}>
+              Publicar
+            </button>
         </footer>
       </form>
 
