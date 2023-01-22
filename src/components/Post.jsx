@@ -41,8 +41,14 @@ function handleNewCommentChange(){
 
 }
 
-function deleteComment(comment){
-console.log(`deletar comentario ${comment}`)
+function deleteComment(commentToDelete){
+  //imutabilidade > as variaveis não sofrem mutação, nos criamos um novo valor (um novo espaço na memoria)
+
+  const commentsWithoutDeletedOne = comments.filter(comment => {
+    return comment !== commentToDelete
+  })
+  setComments(commentsWithoutDeletedOne);
+
 }
 
   return (
